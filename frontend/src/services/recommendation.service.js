@@ -80,11 +80,27 @@ const getRecommendations = (
   };
 
   const ranked = safeProducts
-    .map((product, index) => ({
-      product,
-      index,
-      score: scoreProduct(product),
-    }))
+    .map((product, index) => {
+      const productPreferences = Array.isArray(product?.preferences)
+        ? product.preferences
+        : [];
+      const productFeatures = Array.isArray(product?.features) ? product.features : [];
+
+      const matchedPreferences = productPreferences.filter((pref) =>
+        selectedPreferenceSet.has(pref)
+      );
+      const matchedFeatures = productFeatures.filter((feat) =>
+        selectedFeatureSet.has(feat)
+      );
+
+      return {
+        product,
+        index,
+        score: scoreProduct(product),
+        matchedPreferences,
+        matchedFeatures,
+      };
+    })
     .filter((item) => item.score > 0);
 
   if (ranked.length === 0) return [];
@@ -101,7 +117,15 @@ const getRecommendations = (
         best = current;
       }
     }
-    return best.product;
+    return {
+      ...best.product,
+      _meta: {
+        score: best.score,
+        matchedPreferences: best.matchedPreferences,
+        matchedFeatures: best.matchedFeatures,
+        rank: 1,
+      },
+    };
   }
 
   if (recommendationType === 'MultipleProducts') {
@@ -111,7 +135,15 @@ const getRecommendations = (
         if (b.score !== a.score) return b.score - a.score;
         return a.index - b.index;
       })
-      .map((item) => item.product);
+      .map((item, idx) => ({
+        ...item.product,
+        _meta: {
+          score: item.score,
+          matchedPreferences: item.matchedPreferences,
+          matchedFeatures: item.matchedFeatures,
+          rank: idx + 1,
+        },
+      }));
   }
 
   return [];

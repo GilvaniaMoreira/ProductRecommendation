@@ -8,15 +8,20 @@ import useForm from '../../hooks/useForm';
 import useRecommendations from '../../hooks/useRecommendations';
 
 function Form({ onRecommendationsChange }) {
-  const { preferences, features, products } = useProducts();
+  const { preferences, features, products, isLoading, error: productsError, hasData } =
+    useProducts();
   const { formData, handleChange } = useForm({
     selectedPreferences: [],
     selectedFeatures: [],
     selectedRecommendationType: '',
   });
 
-  const { recommendations, fetchRecommendations, isLoading, error: recommendationError } =
-    useRecommendations(products);
+  const {
+    recommendations,
+    fetchRecommendations,
+    isLoading: isFetchingRecommendations,
+    error: recommendationError,
+  } = useRecommendations(products);
   const [validationMessage, setValidationMessage] = useState('');
 
   useEffect(() => {
@@ -58,6 +63,20 @@ function Form({ onRecommendationsChange }) {
 
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
+      {isLoading && (
+        <div className="rounded-lg border border-slate-200 bg-white/70 px-3 py-2 text-sm text-slate-700">
+          Carregando produtos...
+        </div>
+      )}
+      {productsError && (
+        <div
+          className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-800"
+          role="alert"
+          aria-live="polite"
+        >
+          {productsError}
+        </div>
+      )}
       <Preferences
         preferences={preferences}
         selectedPreferences={formData.selectedPreferences}
@@ -94,7 +113,11 @@ function Form({ onRecommendationsChange }) {
           {recommendationError}
         </div>
       )}
-      <SubmitButton text="Obter recomendação" disabled={isLoading} loading={isLoading} />
+      <SubmitButton
+        text="Obter recomendação"
+        disabled={isLoading || !hasData}
+        loading={isFetchingRecommendations}
+      />
     </form>
   );
 }
