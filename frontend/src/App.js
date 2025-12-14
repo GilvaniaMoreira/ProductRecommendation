@@ -19,7 +19,13 @@ function App() {
     if (!recommendations || recommendations.length === 0) return;
     const sectionEl = recommendationSectionRef.current;
     if (!sectionEl) return;
-    sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const headerOffset = 120; // mantém espaço visível para o topo
+    const rect = sectionEl.getBoundingClientRect();
+    const targetTop = window.pageYOffset + rect.top - headerOffset;
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: 'smooth',
+    });
   }, [recommendations]);
 
   return (
@@ -66,6 +72,7 @@ function App() {
           <section
             ref={recommendationSectionRef}
             className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-black/40 lg:p-8"
+            style={{ scrollMarginTop: '140px' }}
           >
             <div className="mb-6 flex items-center justify-between gap-3">
               <div>
