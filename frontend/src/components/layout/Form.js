@@ -1,6 +1,6 @@
 // Form.js
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Preferences, Features, RecommendationType } from './form';
 import SubmitButton from '../ui/SubmitButton';
 import useProducts from '../../hooks/useProducts';
@@ -15,8 +15,15 @@ function Form({ onRecommendationsChange }) {
     selectedRecommendationType: '',
   });
 
-  const { getRecommendations } = useRecommendations(products);
+  const { recommendations, fetchRecommendations, isLoading, error: recommendationError } =
+    useRecommendations(products);
   const [validationMessage, setValidationMessage] = useState('');
+
+  useEffect(() => {
+    if (typeof onRecommendationsChange === 'function') {
+      onRecommendationsChange(recommendations);
+    }
+  }, [recommendations, onRecommendationsChange]);
 
   const handleFieldChange = (field, value) => {
     if (validationMessage) {
@@ -25,7 +32,7 @@ function Form({ onRecommendationsChange }) {
     handleChange(field, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const hasRecommendationType = Boolean(formData.selectedRecommendationType);
@@ -46,11 +53,7 @@ function Form({ onRecommendationsChange }) {
     }
 
     setValidationMessage('');
-    const result = getRecommendations(formData);
-
-    if (typeof onRecommendationsChange === 'function') {
-      onRecommendationsChange(result);
-    }
+    await fetchRecommendations(formData);
   };
 
   return (
@@ -82,7 +85,16 @@ function Form({ onRecommendationsChange }) {
           {validationMessage}
         </div>
       )}
-      <SubmitButton text="Obter recomendação" />
+      {recommendationError && (
+        <div
+          className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-800"
+          role="alert"
+          aria-live="polite"
+        >
+          {recommendationError}
+        </div>
+      )}
+      <SubmitButton text="Obter recomendação" disabled={isLoading} loading={isLoading} />
     </form>
   );
 }
