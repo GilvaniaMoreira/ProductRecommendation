@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Form from './components/Form/Form';
-import RecommendationList from './components/RecommendationList/RecommendationList';
+import Form from './components/layout/Form';
+import RecommendationList from './components/layout/RecommendationList';
 
 function App() {
   const [recommendations, setRecommendations] = useState([]);

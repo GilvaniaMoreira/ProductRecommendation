@@ -1,8 +1,8 @@
 // Form.js
 
 import React, { useState } from 'react';
-import { Preferences, Features, RecommendationType } from './Fields';
-import { SubmitButton } from './SubmitButton';
+import { Preferences, Features, RecommendationType } from './form';
+import SubmitButton from '../ui/SubmitButton';
 import useProducts from '../../hooks/useProducts';
 import useForm from '../../hooks/useForm';
 import useRecommendations from '../../hooks/useRecommendations';
@@ -41,18 +41,13 @@ function Form({ onRecommendationsChange }) {
     }
 
     if (!hasSelections) {
-      setValidationMessage(
-        'Escolha pelo menos uma preferência ou funcionalidade.'
-      );
+      setValidationMessage('Escolha pelo menos uma preferência ou funcionalidade.');
       return;
     }
 
     setValidationMessage('');
     const result = getRecommendations(formData);
 
-    /**
-     * Defina aqui a lógica para atualizar as recomendações e passar para a lista de recomendações
-     */
     if (typeof onRecommendationsChange === 'function') {
       onRecommendationsChange(result);
     }
@@ -68,9 +63,7 @@ function Form({ onRecommendationsChange }) {
       />
       <Features
         features={features}
-        onFeatureChange={(selected) =>
-          handleFieldChange('selectedFeatures', selected)
-        }
+        onFeatureChange={(selected) => handleFieldChange('selectedFeatures', selected)}
       />
       <RecommendationType
         selectedRecommendationType={formData.selectedRecommendationType}
@@ -93,3 +86,4 @@ function Form({ onRecommendationsChange }) {
 }
 
 export default Form;
+

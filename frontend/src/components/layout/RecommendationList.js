@@ -16,7 +16,8 @@ function RecommendationList({ recommendations }) {
         <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 text-sm text-slate-200 shadow-inner shadow-black/20">
           <p className="font-medium text-slate-100">Nenhuma recomendação ainda.</p>
           <p className="text-slate-400">
-            Escolha preferências, funcionalidades e o tipo de recomendação para ver sugestões aqui.
+            Escolha preferências, funcionalidades e o tipo de recomendação para ver sugestões
+            aqui.
           </p>
         </div>
       )}
@@ -67,3 +68,4 @@ function RecommendationList({ recommendations }) {
 }
 
 export default RecommendationList;
+

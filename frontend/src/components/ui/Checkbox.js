@@ -22,3 +22,4 @@ function Checkbox({ children, className = '', type = 'checkbox', ...props }) {
 }
 
 export default Checkbox;
+
