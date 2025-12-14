@@ -1,6 +1,6 @@
 // Preferences.js
 
-import React, { useState } from 'react';
+import React from 'react';
 import Checkbox from '../../ui/Checkbox';
 import SectionCard from '../../ui/SectionCard';
 
@@ -9,14 +9,11 @@ function Preferences({
   selectedPreferences = [],
   onPreferenceChange,
 }) {
-  const [currentPreferences, setCurrentPreferences] = useState(selectedPreferences);
-
   const handlePreferenceChange = (preference) => {
-    const updatedPreferences = currentPreferences.includes(preference)
-      ? currentPreferences.filter((pref) => pref !== preference)
-      : [...currentPreferences, preference];
+    const updatedPreferences = selectedPreferences.includes(preference)
+      ? selectedPreferences.filter((pref) => pref !== preference)
+      : [...selectedPreferences, preference];
 
-    setCurrentPreferences(updatedPreferences);
     onPreferenceChange(updatedPreferences);
   };
 
@@ -32,7 +29,7 @@ function Preferences({
           <Checkbox
             key={index}
             value={preference}
-            checked={currentPreferences.includes(preference)}
+            checked={selectedPreferences.includes(preference)}
             onChange={() => handlePreferenceChange(preference)}
           >
             {preference}

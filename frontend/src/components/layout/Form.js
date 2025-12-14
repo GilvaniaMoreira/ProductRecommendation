@@ -57,12 +57,14 @@ function Form({ onRecommendationsChange }) {
     <form className="space-y-5" onSubmit={handleSubmit}>
       <Preferences
         preferences={preferences}
+        selectedPreferences={formData.selectedPreferences}
         onPreferenceChange={(selected) =>
           handleFieldChange('selectedPreferences', selected)
         }
       />
       <Features
         features={features}
+        selectedFeatures={formData.selectedFeatures}
         onFeatureChange={(selected) => handleFieldChange('selectedFeatures', selected)}
       />
       <RecommendationType
