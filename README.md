@@ -1,102 +1,76 @@
-# Teste Técnico - Recomendador de Produtos RD Station
+# Recomendador de Produtos - Teste Tecnico
 
-Este projeto é parte do teste técnico para a vaga de desenvolvedor front-end na RD Station. O objetivo principal é implementar a lógica de recomendação de produtos RD Station em uma aplicação web existente.
+Este projeto integra o processo seletivo para a vaga de desenvolvedor front-end. O objetivo e implementar a logica de recomendacao de produtos em uma aplicacao React.js existente, consumindo dados de uma API simulada via json-server.
 
-## Missão
+## Visao Geral
 
-Sua missão é desenvolver a funcionalidade central de recomendação de produtos dentro de uma aplicação React.js pré-existente. Você deverá implementar a lógica que permite aos usuários selecionar suas preferências e funcionalidades desejadas, e então receber recomendações de produtos correspondentes.
+A aplicacao permite que usuarios selecionem preferencias e funcionalidades desejadas para receber recomendacoes de produtos adequados. O projeto utiliza uma arquitetura baseada em workspaces (monorepo) para gerenciar o frontend e o backend no mesmo repositorio.
 
-## Contexto
+### Tecnologias Principais
 
-Este projeto é parte de uma etapa técnica do processo seletivo para a vaga de desenvolvedor front-end na RD Station. A estrutura básica da aplicação já está construída com React.js para o front-end e utiliza json-server para simular um servidor RESTful com dados de produtos.
+- **React.js**: Biblioteca para interface de usuario.
+- **json-server**: Simulacao de API RESTful.
+- **Tailwind CSS**: Framework de estilizacao.
+- **Yarn Workspaces**: Gerenciamento de dependencias do monorepo.
 
-Seu foco deve ser na implementação da lógica de recomendação e na integração desta funcionalidade com a interface do usuário existente. A aplicação já possui um layout básico utilizando Tailwind CSS.
+## Estrutura do Projeto
 
-## Tecnologias Utilizadas
+O projeto esta organizado da seguinte forma:
 
-Este projeto utiliza as seguintes tecnologias principais:
+- **frontend/**: Contem a aplicacao React (interface do usuario).
+- **backend/**: Contem o servidor json-server (dados dos produtos).
+- **package.json**: Arquivo de configuracao raiz que gerencia os scripts e workspaces.
 
-- React.js: Para o desenvolvimento do front-end
-- json-server: Para simular um servidor RESTful com dados de produtos
-- Tailwind CSS: Para estilização e layout responsivo
+## Pre-requisitos
 
-## Requisitos Técnicos
+- Node.js (versao 18.3 ou superior)
+- Yarn (gerenciador de pacotes recomendado)
 
-### Familiaridade com Tailwind CSS
+## Instalacao e Execucao
 
-O layout da aplicação foi desenvolvido utilizando Tailwind CSS. Familiaridade básica com este framework de CSS utilitário será útil para entender e potencialmente modificar o layout existente.
+1. Clone o repositorio:
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
+   cd ProductRecommendation
+   ```
 
-### Versão do Node.js
+2. Instale as dependencias:
+   ```bash
+   yarn install
+   ```
+   O comando instalara as dependencias da raiz e dos workspaces (frontend e backend).
 
-Este projeto requer Node.js versão 18.3 ou superior. Se você não tem essa versão instalada, siga as instruções abaixo para instalá-la usando `n` ou `nvm`.
+3. Inicie a aplicacao em modo de desenvolvimento:
+   ```bash
+   yarn dev
+   ```
+   Este comando executa simultaneamente o frontend (porta 3000) e o backend (porta 3001).
 
-#### Usando `n` (Node Version Manager):
+### Outros Comandos Disponiveis
 
-1. Instale `n` globalmente (caso ainda não tenha): npm install -g n
+- `yarn start:frontend`: Inicia apenas o frontend.
+- `yarn start:backend`: Inicia apenas o backend (API).
 
-2. Instale e use a versão 18.3 do Node.js: n 18.3
+## Desenvolvimento e Logica Implementada
 
-#### Usando `nvm` (Node Version Manager):
+O foco do desenvolvimento concentrou-se nos seguintes arquivos para atender aos criterios de aceite:
 
-1. Instale `nvm` (caso ainda não tenha) seguindo as instruções em: https://github.com/nvm-sh/nvm
+1.  **frontend/src/services/recommendation.service.js**: Implementacao do algoritmo de recomendacao. A logica pontua os produtos com base na interseccao entre as preferencias/funcionalidades do usuario e as caracteristicas do produto.
+    *   **SingleProduct**: Retorna o produto com maior pontuacao. Em caso de empate de pontuacao, o criterio de desempate e o indice original do produto (o ultimo da lista prevalece, conforme requisito).
+    *   **MultipleProducts**: Retorna todos os produtos compativeis ordenados por pontuacao (decrescente).
 
-2. Instale e use a versão 18.3 do Node.js: nvm install 18.3 & nvm use 18.3
+2.  **frontend/src/components/Form/Form.js**: Integracao do servico de recomendacao com o formulario. Ao submeter, os dados sao processados e o resultado e enviado para o componente pai.
 
-Após instalar a versão correta do Node.js, você pode prosseguir com a instalação das dependências do projeto e iniciar o desenvolvimento.
+3.  **frontend/src/App.js**: Gerenciamento de estado para exibir a lista de recomendacoes retornada pelo formulario.
 
-## Foco do Desenvolvimento
+## Criterios de Aceite Atendidos
 
-Para completar este teste, você deve concentrar-se principalmente em três arquivos específicos:
+1.  Recebimento de preferencias e funcionalidades via formulario.
+2.  Geracao de recomendacoes baseadas nas escolhas do usuario.
+3.  Suporte a recomendacao de produto unico (SingleProduct) com criterio de desempate especifico (ultimo item valido).
+4.  Suporte a recomendacao de multiplos produtos (MultipleProducts) com ordenacao por relevancia.
+5.  Tratamento de diferentes tipos de entrada e validacao de dados.
 
-1. `App.js`: Neste componente, você encontrará o comentário "Dadas atualizações no formulário, necessário atualizar a lista de recomendações". Implemente a lógica necessária para atualizar a lista de recomendações com base nas entradas do usuário.
+## Licenca
 
-2. `Form.js`: Este componente contém o comentário "Defina aqui a lógica para atualizar as recomendações e passar para a lista de recomendações". Desenvolva a lógica para processar as entradas do usuário e gerar as recomendações apropriadas.
-
-3. `recommendation.service.js`: Neste arquivo de serviço, você verá o comentário "Crie aqui a lógica para retornar os produtos recomendados." Implemente a lógica de negócios para determinar quais produtos devem ser recomendados com base nos critérios fornecidos.
-
-## Observações Adicionais
-
-- Sinta-se à vontade para implementar melhorias na cobertura de testes e no layout da aplicação, caso tenha tempo adicional.
-- O código existente serve como base para sua implementação. Concentre-se em desenvolver a funcionalidade de recomendação de produtos conforme especificado nos requisitos do projeto e nos arquivos mencionados acima.
-
-## Requisitos
-
-- Implementar a lógica de recomendação de produtos com base nas preferências do usuário.
-- Utilizar React.js para o desenvolvimento do front-end.
-- Consumir a API fornecida pelo json-server para obter os dados dos produtos.
-- Seguir as boas práticas de desenvolvimento e organização de código.
-- Implementar testes unitários para as funcionalidades desenvolvidas.
-
-## Como Executar
-
-1. Clone o repositório: `git clone <URL_DO_REPOSITORIO>`
-2. Instale as dependências: `yarn install`
-3. Para instalar o projeto, execute o script `./install.sh` 
-4. Inicie a aplicação: `yarn start`
-
-### Scripts Disponíveis
-
-- `start`: Inicia a aplicação React em modo de desenvolvimento.
-- `start:frontend`: Inicia apenas a parte frontend da aplicação em modo de desenvolvimento.
-- `start:backend`: Inicia apenas a parte backend da aplicação em modo de desenvolvimento.
-- `dev`: Inicia simultaneamente a parte frontend e backend da aplicação em modo de desenvolvimento.
-
-## Critérios de Aceite
-
-1. O serviço de recomendação de produtos deve ser capaz de receber as preferências e funcionalidades desejadas do usuário através de um formulário.
-2. O serviço deve retornar recomendações de produtos com base nas preferências e funcionalidades selecionadas pelo usuário.
-3. Se o tipo de recomendação selecionado for "SingleProduct", o serviço deve retornar apenas um produto que corresponda melhor às preferências e funcionalidades do usuário.
-4. Se o tipo de recomendação selecionado for "MultipleProducts", o serviço deve retornar uma lista de produtos que correspondam às preferências e funcionalidades do usuário.
-5. Em caso de empate na seleção de produtos com base nas preferências e funcionalidades do usuário, o serviço deve retornar o último produto que atende aos critérios de seleção.
-6. O serviço deve ser capaz de lidar com diferentes tipos de preferências e funcionalidades selecionadas pelo usuário.
-7. O serviço deve ser modular e facilmente extensível para futuras atualizações e adições de funcionalidades.
-
-Certifique-se de que todos os critérios de aceite são atendidos durante o desenvolvimento do projeto.
-
-## Autor
-
-Desenvolvido por [Seu Nome]
-
-## Licença
-
-Este projeto está licenciado sob a [Licença MIT](LICENSE).
+Este projeto esta licenciado sob a Licenca MIT.
