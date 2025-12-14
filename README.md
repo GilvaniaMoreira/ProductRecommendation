@@ -51,18 +51,18 @@ O projeto esta organizado da seguinte forma:
 
 ## Desenvolvimento e Logica Implementada
 
-- **Algoritmo de recomendacao** (`frontend/src/services/recommendation.service.js`): normaliza entradas, pontua por matches, desempata e adiciona metadados (`_meta`) com score, rank e listas de matches.
+- **Algoritmo de recomendacao** : normaliza entradas, pontua por matches, desempata e adiciona metadados (`_meta`) com score, rank e listas de matches.
   - **SingleProduct**: retorna o melhor score; em empate, prevalece o ultimo na ordem original.
   - **MultipleProducts**: retorna lista ordenada por score desc, mantendo ordem original nos empates.
-- **Formulario** (`frontend/src/components/layout/Form.js`): estado controlado, validacoes de tipo e selecoes, feedback de loading/erro, botao com loading e desabilitado sem dados.
-- **Lista de recomendacoes** (`frontend/src/components/layout/RecommendationList.js`): exibe score, ranking e motivos (matches) com fallback para features/preferences quando nao ha metadados.
-- **Scroll com offset** (`frontend/src/App.js`): rola ate a secao de resultados.
+- **Formulario** : estado controlado, validacoes de tipo e selecoes, feedback de loading/erro, botao com loading e desabilitado sem dados.
+- **Lista de recomendacoes** : exibe score, ranking e motivos (matches) com fallback para features/preferences quando nao ha metadados.
+- **Scroll com offset** : rola ate a secao de resultados.
 
 ## Testes
 
-- **Servico**: paths de recomendacao, empates, normalizacao e mocks do projeto (`frontend/src/services/recommendation.service.test.js`).
-- **Formulario (integracao)**: validacoes, fluxo feliz, erro do servico e estados de loading/erro de produtos (`frontend/src/components/layout/Form.test.js`).
-- **Lista**: render de score/rank/matches, fallback e estado vazio (`frontend/src/components/layout/RecommendationList.test.js`).
+- **Servico**: paths de recomendacao, empates, normalizacao e mocks do projeto .
+- **Formulario (integracao)**: validacoes, fluxo, erro do servico e estados de loading/erro de produtos .
+- **Lista**: render de score/rank/matches, fallback e estado vazio .
 
 ## Licenca
 
