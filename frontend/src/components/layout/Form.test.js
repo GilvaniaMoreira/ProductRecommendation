@@ -24,6 +24,9 @@ jest.mock('../../hooks/useProducts', () => ({
         features: ['Feature B'],
       },
     ],
+    isLoading: false,
+    error: null,
+    hasData: true,
   }),
 }));
 
