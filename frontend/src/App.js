@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Form from './components/Form/Form';
 import RecommendationList from './components/RecommendationList/RecommendationList';
 
 function App() {
   const [recommendations, setRecommendations] = useState([]);
+  const recommendationSectionRef = useRef(null);
 
   const handleRecommendationsChange = (result) => {
     if (!result) {
@@ -13,6 +14,13 @@ function App() {
 
     setRecommendations(Array.isArray(result) ? result : [result]);
   };
+
+  useEffect(() => {
+    if (!recommendations || recommendations.length === 0) return;
+    const sectionEl = recommendationSectionRef.current;
+    if (!sectionEl) return;
+    sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [recommendations]);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-50">
@@ -55,7 +63,10 @@ function App() {
             <Form onRecommendationsChange={handleRecommendationsChange} />
           </section>
 
-          <section className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-black/40 lg:p-8">
+          <section
+            ref={recommendationSectionRef}
+            className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-black/40 lg:p-8"
+          >
             <div className="mb-6 flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-semibold text-slate-100">
