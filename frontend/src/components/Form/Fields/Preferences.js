@@ -8,7 +8,8 @@ function Preferences({
   selectedPreferences = [],
   onPreferenceChange,
 }) {
-  const [currentPreferences, setCurrentPreferences] = useState(selectedPreferences)
+  const [currentPreferences, setCurrentPreferences] =
+    useState(selectedPreferences);
 
   const handlePreferenceChange = (preference) => {
     const updatedPreferences = currentPreferences.includes(preference)
@@ -20,22 +21,33 @@ function Preferences({
   };
 
   return (
-    <div className="mb-4">
-      <h2 className="text-lg font-bold mb-2">Preferências:</h2>
-      <ul>
+    <div className="rounded-xl border border-slate-200 bg-white/80 p-4 shadow-sm backdrop-blur">
+      <div className="mb-3 flex items-start justify-between gap-2">
+        <div>
+          <h2 className="text-base font-semibold text-slate-900">
+            Preferências
+          </h2>
+          <p className="text-sm text-slate-500">
+            O que é mais importante para sua operação?
+          </p>
+        </div>
+        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+          Passo 1
+        </span>
+      </div>
+
+      <div className="space-y-2">
         {preferences.map((preference, index) => (
-          <li key={index} className="mb-2">
-            <Checkbox
-              value={preference}
-              checked={currentPreferences.includes(preference)}
-              onChange={() => handlePreferenceChange(preference)}
-              className="text-blue-500"
-            >
-              {preference}
-            </Checkbox>
-          </li>
+          <Checkbox
+            key={index}
+            value={preference}
+            checked={currentPreferences.includes(preference)}
+            onChange={() => handlePreferenceChange(preference)}
+          >
+            {preference}
+          </Checkbox>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
